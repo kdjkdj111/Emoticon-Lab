@@ -17,7 +17,7 @@
 
 | Revision date | Version # | Description | Author |
 | :--- | :--- | :--- | :--- |
-| 03/21/2026 | 1.0 | First Writing | Kim dong jun |
+| 03/27/2026 | 1.0 | First Writing | Kim dong jun |
 </div>
 <br>
 
