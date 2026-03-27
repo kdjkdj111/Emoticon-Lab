@@ -1,5 +1,7 @@
 # Emoticon-Lab
-
+<div align="center">
+    <img src="resource/Logo.png" width="300" alt="Logo">
+</div>
 <br>
 
 ## Core Features (핵심 기능)
