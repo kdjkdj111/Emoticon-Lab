@@ -1,0 +1,229 @@
+.history-view {
+  min-height: 100vh;
+  background-color: #F8F9FA;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #EAEAEA;
+}
+
+.header-logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #191919;
+}
+
+.header-logo .highlight {
+  color: var(--primary-color);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.user-greeting {
+  font-weight: 600;
+  color: #191919;
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  color: #888888;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-text:hover {
+  color: #191919;
+}
+
+.dashboard-content {
+  flex: 1;
+  max-width: 1024px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.dashboard-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 2rem;
+}
+
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #191919;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-subtitle {
+  font-size: 1rem;
+  color: #666666;
+}
+
+.btn-new-project {
+  background-color: var(--primary-color);
+  color: #191919;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 8px rgba(254, 229, 0, 0.2);
+}
+
+.btn-new-project:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.plus-icon {
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.project-card {
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+  border: 1px solid #EFEFEF;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  border-color: var(--primary-color);
+}
+
+.project-thumbnail {
+  width: 80px;
+  height: 80px;
+  background-color: #F8F9FA;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+}
+
+.project-info {
+  flex: 1;
+}
+
+.project-type {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #888888;
+  margin-bottom: 0.25rem;
+}
+
+.project-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #191919;
+  margin-bottom: 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.project-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.project-date {
+  color: #AAAAAA;
+}
+
+.project-status {
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+.status-success {
+  background-color: rgba(254, 229, 0, 0.2);
+  color: #A68A00;
+}
+
+.status-warning {
+  background-color: #FFF0F0;
+  color: #FF5252;
+}
+
+/* --- 버튼 디자인 통일 --- */
+.btn {
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+/* 둥근 30px 스타일 및 폰트 설정 계승 */
+.btn-secondary {
+  background-color: #f1f3f5;
+  color: #191919;
+  border-radius: 30px;
+  font-weight: 700;
+}
+
+.btn-secondary:hover {
+  background-color: #e9ecef;
+  transform: translateY(-1px);
+}
+
+/* 헤더용 로그아웃 버튼 크기 조정 */
+.btn-logout {
+  padding: 0.5rem 1.2rem;
+  font-size: 0.85rem;
+}
+
+.user-greeting {
+  font-weight: 600;
+  color: #666;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding-right: 1rem;
+}

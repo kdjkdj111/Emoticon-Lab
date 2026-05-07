@@ -1,0 +1,551 @@
+/* Simulator View Layout */
+
+/* ✨ 삐져나감 방지: 요소 크기 계산 시 패딩/테두리 포함 */
+.phone-frame, .phone-frame * {
+    box-sizing: border-box;
+}
+
+.simulator-dual-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4.5rem;
+    padding: 1rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    overflow: hidden;
+}
+
+.phone-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    height: 100%;
+    justify-content: center;
+    transform: scale(1.15);
+    transform-origin: center;
+}
+
+.phone-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.label-dot.sender { background-color: #32D74B; }
+.label-dot.receiver { background-color: #3563E9; }
+
+/* Phone Frame Styles */
+.phone-frame {
+    width: 300px;
+    height: 680px;
+    max-height: 560px;
+    border: 10px solid #191919;
+    border-radius: 32px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+/* Light Theme Backgrounds */
+.phone-frame.bg-blue { background-color: #BACEE0; }
+.phone-frame.bg-white { background-color: #FFFFFF; }
+.phone-frame.bg-black { background-color: #191919; }
+.phone-frame.bg-yellow { background-color: #FEE500; }
+
+/* Dark Theme Backgrounds */
+.phone-frame.dark.bg-blue { background-color: #191919; }
+.phone-frame.dark.bg-white { background-color: #2A2A2A; }
+.phone-frame.dark.bg-black { background-color: #000000; }
+.phone-frame.dark.bg-yellow { background-color: #3A3300; }
+
+/* Status Bar & Header */
+.status-bar {
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1.2rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    transition: color 0.3s;
+}
+
+.chat-header {
+    height: 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    transition: color 0.3s;
+}
+
+.phone-frame.dark .status-bar,
+.phone-frame.dark .chat-header {
+    color: white;
+}
+
+/* 채팅 윈도우 및 말풍선 */
+.chat-window {
+    flex: 1;
+    padding: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.chat-message-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.chat-message-container.is-me { align-items: flex-end; }
+.chat-message-container.is-other { align-items: flex-start; }
+
+.chat-sender-name {
+    font-size: 0.6rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    margin-left: 0.25rem;
+    color: #555;
+    opacity: 0.8;
+}
+
+.phone-frame.dark .chat-sender-name { color: #aaa; }
+
+.chat-bubble-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.3rem;
+}
+
+.chat-time {
+    font-size: 0.55rem;
+    font-weight: 500;
+    opacity: 0.6;
+    margin-bottom: 0.1rem;
+    color: #888;
+}
+
+.phone-frame.dark .chat-time { color: #ccc; }
+
+.chat-bubble-text {
+    padding: 0.4rem 0.65rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    max-width: 170px;
+    word-break: break-all;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.is-me .chat-bubble-text {
+    border-top-right-radius: 2px;
+    background-color: #FEE500;
+    color: #191919;
+}
+
+.is-other .chat-bubble-text {
+    border-top-left-radius: 2px;
+    background-color: #FFFFFF;
+    color: #191919;
+}
+
+.phone-frame.dark .is-other .chat-bubble-text {
+    background-color: #424242;
+    color: #FFFFFF;
+}
+
+.chat-bubble-image {
+    max-width: 120px;
+    padding: 0.2rem 0;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+}
+
+.chat-bubble-image:active {
+    transform: scale(0.95);
+}
+
+.chat-bubble-image img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.text-emoticon {
+    font-size: 3.5rem;
+    line-height: 1;
+}
+
+/* Input Area */
+.chat-input-area {
+    height: 44px;
+    background: white;
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem;
+    gap: 0.4rem;
+    transition: background-color 0.3s;
+}
+
+.phone-frame.dark .chat-input-area {
+    background: #1E1E1E;
+}
+
+.input-plus {
+    width: 30px;
+    height: 24px;
+    border-radius: 25%;
+    background: #F1F3F5;
+    border: none;
+    color: #888;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.phone-frame.dark .input-plus { background: #333; color: #aaa; }
+
+.input-box {
+    flex: 1;
+    height: 28px;
+    background: #F1F3F5;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    padding: 0 0.8rem;
+    font-size: 0.75rem;
+    color: #191919;
+}
+
+.phone-frame.dark .input-box {
+    background: #2C2C2C;
+    color: white;
+}
+
+.input-emoji-btn, .input-send {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-send {
+    width: 24px;
+    height: 24px;
+    background: #FEE500;
+    border-radius: 20%;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #191919;
+}
+
+
+.emoticon-keyboard {
+    height: 270px;
+    background: #f6f6f6;
+    display: flex;
+    flex-direction: column;
+}
+
+.phone-frame.dark .emoticon-keyboard {
+    background: #1e1e1e;
+}
+
+.keyboard-handle-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 6px 0;
+    flex-shrink: 0;
+}
+
+.keyboard-handle {
+    width: 28px;
+    height: 2px;
+    background-color: #cbd5e1;
+    border-radius: 9999px;
+    opacity: 0.4;
+}
+
+.keyboard-tab-wrapper {
+    flex-shrink: 0;
+    width: 100%;
+    padding: 0 16px;
+}
+
+.keyboard-tab-bg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 9999px;
+    padding: 4px;
+    max-width: 80px;
+    margin: 0 auto;
+}
+
+.phone-frame.dark .keyboard-tab-bg {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.keyboard-tab-btn {
+    flex: 1;
+    padding: 4px 0;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 9999px;
+    background-color: white;
+    color: #0f172a;
+    border: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.phone-frame.dark .keyboard-tab-btn {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.keyboard-preview-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 16px;
+}
+
+.keyboard-preview-box {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    padding: 4px;
+    background-color: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #f1f5f9;
+    transition: all 0.2s;
+}
+
+.phone-frame.dark .keyboard-preview-box {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.05);
+    box-shadow: none;
+}
+
+.keyboard-preview-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.text-emoji-small { font-size: 1rem; }
+
+/* ✨ 이모티콘 그리드 (가로 오버플로우 방지 및 간격 조정) */
+.keyboard-grid {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 0;
+    padding: 12px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px 8px;
+    width: 100%;
+}
+
+.keyboard-emoji-slot {
+    aspect-ratio: 1;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0; /* 자식 요소 크기 삐져나감 방지 */
+}
+
+.keyboard-emoji-slot:active {
+    transform: scale(0.9);
+}
+
+.keyboard-emoji-slot img {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.05));
+    transition: filter 0.2s ease;
+}
+
+.keyboard-emoji-slot:hover img {
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+}
+
+.text-emoji { font-size: 2rem; }
+
+.keyboard-bottom-spacer {
+    height: 24px;
+    flex-shrink: 0;
+}
+
+/* 유틸리티 */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* 중앙 설정 패널 */
+.simulator-center-settings {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.target-tabs {
+    display: flex;
+    background: white;
+    border-radius: 16px;
+    padding: 0.3rem;
+}
+
+.target-tabs button {
+    flex: 1;
+    padding: 0.8rem;
+    border: none;
+    background: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #888;
+    cursor: pointer;
+}
+
+.target-tabs button.active {
+    background: #191919;
+    color: white;
+}
+
+.settings-panel {
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.settings-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.3rem;
+}
+
+.settings-desc {
+    font-size: 0.75rem;
+    color: #888;
+    margin-bottom: 1.5rem;
+}
+
+.highlight-text {
+    color: #3563E9;
+    font-weight: 700;
+}
+
+.setting-group { margin-bottom: 1.5rem; }
+
+.setting-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #999;
+    margin-bottom: 0.5rem;
+}
+
+.toggle-switch {
+    display: flex;
+    background: #F1F3F5;
+    padding: 0.2rem;
+    border-radius: 10px;
+}
+
+.toggle-switch button {
+    flex: 1;
+    padding: 0.8rem;
+    border: none;
+    background: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #888;
+    cursor: pointer;
+}
+
+.toggle-switch button.active {
+    background: #191919;
+    color: white;
+}
+
+.theme-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.theme-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem;
+    border: 1px solid #EAEAEA;
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+}
+
+.theme-btn.selected { border-color: #191919; }
+
+.theme-btn span {
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.color-circle {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.theme-btn.blue .color-circle { background: #BACEE0; }
+.theme-btn.white .color-circle { background: #FFFFFF; }
+.theme-btn.black .color-circle { background: #191919; }
+.theme-btn.yellow .color-circle { background: #FEE500; }
+
+.fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

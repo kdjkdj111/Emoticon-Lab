@@ -1,0 +1,185 @@
+.workspace-view {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #F4F6F8;
+  overflow: hidden;
+}
+
+/* GNB */
+.gnb {
+  height: 64px;
+  background-color: #FFFFFF;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  border-bottom: 1px solid #EAEAEA;
+  flex-shrink: 0;
+  z-index: 100;
+}
+
+/* ✨ 로고, 제목, 탭 사이의 간격을 자연스럽게 조정 (기존 3rem -> 1.5rem) */
+.gnb-left {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.gnb-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.gnb-logo {
+  font-size: 1.4rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.gnb-logo .highlight {
+  color: #FEE500;
+}
+
+/* ==========================================
+   ✨ 추가된 프로젝트 제목 설정 영역 스타일
+   ========================================== */
+.gnb-title-area {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 1.5rem;
+  border-left: 2px solid #F4F6F8; /* 로고와의 시각적 구분선 */
+}
+
+.project-title-input {
+  border: none;
+  background: transparent;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #191919;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  width: 180px;
+  transition: all 0.2s ease;
+  outline: none;
+  font-family: inherit;
+}
+
+.project-title-input:hover {
+  background-color: #F4F6F8; /* 배경과 동일한 색상으로 호버 효과 */
+}
+
+.project-title-input:focus {
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 2px #FEE500; /* 브랜드 컬러(옐로우)로 포커스 링 */
+  width: 260px; /* 클릭 시 길게 입력할 수 있도록 확장됨 */
+}
+
+.project-title-input::placeholder {
+  color: #C1C5CC;
+  font-weight: 500;
+}
+/* ========================================== */
+
+.gnb-tabs {
+  display: flex;
+  gap: 0.5rem;
+  height: 100%;
+  margin-left: 1rem; /* 제목 영역과 탭 사이의 추가 여백 */
+}
+
+.gnb-tabs button {
+  padding: 0 1.5rem;
+  height: 64px;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #888888;
+  position: relative;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.gnb-tabs button.active {
+  color: #191919;
+}
+
+.gnb-tabs button.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: #191919;
+}
+
+.btn-workspace-reset {
+  background-color: transparent;
+  color: #666;
+  border: 1px solid #ddd;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+}
+
+.btn-workspace-reset:hover {
+  background-color: #fff1f1;
+  border-color: #ffcfcf;
+  color: #ff4d4d;
+}
+
+.reset-icon {
+  font-size: 0.9rem;
+}
+
+/* 기존 사용자 지정 세션 종료 버튼 스타일 유지 */
+.btn-session-exit {
+  background-color: #FFF0F0;
+  color: #FF5252;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-session-exit:hover {
+  background-color: #FFE0E0; /* 호버 시 약간 더 짙은 빨강으로 변경 (기존 e9ecef 대비 어울리게 보완) */
+}
+
+/* Workspace Body */
+.workspace-body {
+  flex: 1;
+  height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Common Animations */
+.fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

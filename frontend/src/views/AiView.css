@@ -1,0 +1,353 @@
+/* AI Analysis View */
+.ai-analysis-view {
+    height: 100%;
+    overflow-y: auto;
+    padding: 2rem;
+    background-color: #F8F9FA;
+}
+
+.analysis-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80%;
+}
+
+.form-card {
+    background: white;
+    border-radius: 24px;
+    padding: 3rem;
+    width: 100%;
+    max-width: 550px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.form-header .badge {
+    background: #191919;
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    display: inline-block;
+    margin-bottom: 0.75rem;
+}
+
+.form-header h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #191919;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-header p {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+.form-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.form-group label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.radio-group button {
+    flex: 1;
+    min-width: 80px;
+    padding: 0.85rem;
+    border: 1px solid #EAEAEA;
+    background: white;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.radio-group button.active {
+    background: #191919;
+    color: white;
+    border-color: #191919;
+}
+
+.form-group textarea {
+    width: 100%;
+    height: 100px;
+    padding: 1.2rem;
+    border: 1px solid #EAEAEA;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: none;
+}
+
+.btn-primary-full {
+    background: #FEE500;
+    color: #191919;
+    border: none;
+    padding: 1.2rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+/* Analyzing State */
+.analyzing-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+}
+
+.spinner-professional {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #F1F3F5;
+    border-top-color: #191919;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 2rem;
+}
+
+/* Report Grid */
+.analysis-report-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.report-header {
+    margin-bottom: 2rem;
+}
+
+.report-header h2 {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #191919;
+    margin-bottom: 0.5rem;
+}
+
+.report-header p {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+.analysis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 1.25rem;
+}
+
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    border: 1px solid #F0F0F0;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #191919;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.card-note {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.4;
+    background: #F8F9FA;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+}
+
+.donut-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 180px;
+}
+
+.donut-chart-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.donut-text {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.donut-text .score {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #191919;
+    line-height: 1;
+}
+
+.donut-text .label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: #999;
+    margin-top: 0.2rem;
+}
+
+.warning-badges {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.warning-badge,
+.pass-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.warning-badge {
+    background-color: #FFF9E6;
+    color: #B28900;
+    border: 1px solid #FFECB3;
+}
+
+.pass-badge {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+    border: 1px solid #C8E6C9;
+}
+
+.hashtag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.hashtag {
+    background: #F1F3F5;
+    color: #495057;
+    padding: 0.4rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.risk-card {
+    grid-column: span 2;
+}
+
+.risk-status-container {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #F8F9FA;
+    padding: 1.2rem 1.8rem;
+    border-radius: 12px;
+    min-width: 240px;
+}
+
+.status-light {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.status-light.yellow {
+    background-color: #FF9500;
+}
+
+.status-text .main {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #191919;
+}
+
+.status-text .sub {
+    font-size: 0.85rem;
+    color: #888;
+    font-weight: 600;
+}
+
+.risk-feedback-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem 1.5rem;
+    flex: 1;
+}
+
+.risk-item {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #444;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #F8F9FA;
+}
+
+.ai-logo-wrapper {
+    width: 200px;
+    height: 170px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: -0.5rem;
+}
+
+.ai-logo-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: top;
+}
