@@ -1,12 +1,12 @@
 /**
- * @file AiView.jsx
+ * @file AIView.jsx
  * @description LLM(Gemini API 등)을 활용하여 이모티콘의 디자인 일관성, 감정 스펙트럼, 가독성 등을 종합 분석하는 리포트 컴포넌트
  * @props {Object} reportData - 이전에 완료된 AI 분석 결과 및 폼 입력 데이터 (API 중복 호출 방지 및 탭 전환 시 상태 유지용)
  * @props {Function} onSaveReport - 분석 완료 시 프롬프트 컨텍스트(FormData)와 결과 데이터를 전역 상태에 캐싱하는 콜백 함수
  */
 
 import React, { useState } from 'react';
-import './AiView.css';
+import './AIView.css';
 // TODO: 실제 API 연동 시 제거될 Mock 데이터
 import { mockAiReport } from '../mocks/mockData';
 import logoImage from "../assets/Logo.png";
@@ -72,7 +72,7 @@ const RadarChartMock = () => (
 // [2] Main Component
 // ==========================================
 
-const AiView = ({ reportData, onSaveReport }) => {
+const AIView = ({ reportData, onSaveReport }) => {
 
     // ==========================================
     // [2-1] State: 진행 상태 및 데이터 관리
@@ -267,4 +267,4 @@ const AiView = ({ reportData, onSaveReport }) => {
     );
 };
 
-export default AiView;
+export default AIView;

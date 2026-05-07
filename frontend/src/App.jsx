@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import StartView from './views/StartView';
-import HistoryView from './views/HistoryView';
+import DashboardView from './views/DashboardView.jsx';
 import UploadView from './views/UploadView';
 import WorkspaceView from './views/WorkspaceView';
 
@@ -84,7 +84,7 @@ function App() {
         {currentView === 'start' && <StartView onNavigate={handleNavigate} />}
 
         {currentView === 'dashboard' && (
-            <HistoryView onNavigate={handleNavigate} projects={projects} />
+            <DashboardView onNavigate={handleNavigate} projects={projects} />
         )}
 
         {currentView === 'upload' && (

@@ -3,10 +3,12 @@ import './WorkspaceView.css';
 
 import SimulatorView from './SimulatorView';
 import TechnicalView from './TechnicalView';
-import AiView from './AiView';
+import AIView from './AIView.jsx';
 
 const WorkspaceView = ({ onNavigate, data, onUpdateImage, onSaveReport, onSaveProject }) => {
     const [activeTab, setActiveTab] = useState('simulator');
+
+    const [showResetModal, setShowResetModal] = useState(false);
 
     const handleTitleChange = (e) => {
         onSaveProject({ ...data, title: e.target.value });
@@ -45,12 +47,8 @@ const WorkspaceView = ({ onNavigate, data, onUpdateImage, onSaveReport, onSavePr
                     </div>
                 </div>
                 <div className="gnb-right">
-                    <button className="btn-workspace-reset" onClick={() => {
-                        if(window.confirm("현재 작업 중인 모든 데이터와 분석 결과가 사라집니다. 초기화하시겠습니까?")) {
-                            onNavigate('upload');
-                        }
-                    }}>
-                         초기화
+                    <button className="btn-workspace-reset" onClick={() => setShowResetModal(true)}>
+                        초기화
                     </button>
                     <button className="btn-session-exit" onClick={handleSessionExit}>
                         세션 종료
@@ -73,13 +71,27 @@ const WorkspaceView = ({ onNavigate, data, onUpdateImage, onSaveReport, onSavePr
                 )}
 
                 {activeTab === 'ai' && (
-                    <AiView
+                    <AIView
                         uploadedImages={data?.uploadedImages}
                         reportData={data?.aiReport}
                         onSaveReport={(report) => onSaveReport('aiReport', report)}
                     />
                 )}
             </div>
+
+            {showResetModal && (
+                <div className="custom-modal-overlay fade-in">
+                    <div className="custom-modal">
+                        <div className="modal-icon">⚠️</div>
+                        <h3>작업실 초기화</h3>
+                        <p>현재 작업 중인 모든 데이터와 <br/>분석 결과가 사라집니다.<br/>정말 초기화하시겠습니까?</p>
+                        <div className="modal-actions">
+                            <button className="btn-modal-cancel" onClick={() => setShowResetModal(false)}>취소</button>
+                            <button className="btn-modal-confirm" onClick={() => onNavigate('upload')}>초기화하기</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

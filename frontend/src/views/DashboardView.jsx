@@ -1,13 +1,13 @@
 /**
- * @file HistoryView.jsx
+ * @file DashboardView.jsx
  * @description 사용자의 이전 이모티콘 검수 프로젝트 이력을 조회하고, 새로운 프로젝트를 시작할 수 있는 대시보드 컴포넌트
  * @props {Function} onNavigate - 화면 전환(라우팅)을 처리하는 부모 콜백 함수 ('start', 'upload', 'workspace' 등으로 이동)
  * @props {Array} projects - App.jsx에서 관리하는 실제 사용자의 프로젝트 배열 데이터 (로컬 스토리지 연동)
  */
 
-import './HistoryView.css';
+import './DashboardView.css';
 
-const HistoryView = ({ onNavigate, projects = [] }) => {
+const DashboardView = ({ onNavigate, projects = [] }) => {
 
   // ==========================================
   // [1] Main Render
@@ -112,4 +112,4 @@ const HistoryView = ({ onNavigate, projects = [] }) => {
   );
 };
 
-export default HistoryView;
+export default DashboardView;

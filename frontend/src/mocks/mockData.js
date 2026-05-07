@@ -2,7 +2,7 @@ import thumb1 from '../assets/mock1.png';
 import thumb2 from '../assets/mock2.png';
 import thumb3 from '../assets/mock3.png';
 
-// 1. 프로젝트 목록 (HistoryView 용)
+// 1. 프로젝트 목록 (DashboardView 용)
 export const mockProjects = [
     { id: 1, title: '아 배고파', type: '멈춰있는 이모티콘', date: '2026.05.01', status: '검수 완료', thumbnail: thumb1 },
     { id: 2, title: '아 열 받아', type: '멈춰있는 이모티콘', date: '2026.04.28', status: '수정 필요', thumbnail: thumb2 },
@@ -26,7 +26,7 @@ export const mockAnalysisResults = [
     { slot: 24, type: 'format', message: 'RGB 컬러모드가 아닙니다. (CMYK)', coords: null },
 ];
 
-// 5. AI 분석 결과 리포트 (AiView 용 더미 데이터)
+// 5. AI 분석 결과 리포트 (AIView 용 더미 데이터)
 export const mockAiReport = {
     consistency: {
         score: 85.4,
