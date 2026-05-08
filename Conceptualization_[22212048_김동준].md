@@ -18,6 +18,7 @@
 | Revision date | Version # | Description | Author |
 | :--- | :--- | :--- | :--- |
 | 03/27/2026 | 1.0 | First Writing | Kim dong jun |
+| 05/08/2026 | 1.0 | Use case fix | Kim dong jun |
 </div>
 <br>
 
@@ -122,22 +123,27 @@
 | :--- | :--- |
 | **Description** | 이미지 세트를 외부 AI로 전송하여 감정 키워드를 추출하고 컨셉 일관성을 분석하도록 요청한다. |
 
-### 8) View Detailed Report
+### 8) View Detailed Technical Report
 | **Actor** | User |
 | :--- | :--- |
-| **Description** | 기술 검수 및 AI분석이 완료된 후, 오류 정보와 차트가 포함된 상세 결과 리포트를 열람한다. |
+| **Description** | 기술 검수 및 완료된 후, 오류 정보와 픽셀 좌표가 포함된 상세 결과 리포트를 열람한다. |
 
-### 9) View Personal Dashboard
+### 9) View Detailed AI Report
+| **Actor** | User |
+| :--- | :--- |
+| **Description** | AI분석이 완료된 후, 차트가 포함된 상세 결과 리포트를 열람한다. |
+
+### 10) View Personal Dashboard
 | **Actor** | User |
 | :--- | :--- |
 | **Description** | 서버에 저장된 과거의 프로젝트 검수 로그 기록들을 대시보드에서 조회한다. |
 
-### 10) Simulate Emoticon on Chat UI
+### 11) Simulate Emoticon on Chat UI
 | **Actor** | User |
 | :--- | :--- |
 | **Description** | 업로드한 이모티콘을 실제 메신저와 동일한 UI의 가상 환경을 통해 시각적 오류와 가독성을 점검한다. |
 
-### 11) Reset Current Workspace
+### 12) Reset Current Workspace
 | **Actor** | User |
 | :--- | :--- |
 | **Description** | 작업 중 데이터가 꼬이거나 새로 시작하고자 할 때, 현재 진행 중인 검수 세션의 데이터를 모두 초기화하여 세트를 재생성한다. |
@@ -202,15 +208,23 @@
 | **Dynamics** | 이모티콘 세트의 감정 분포 및 객관적 피드백이 필요할 경우. |
 | **Goals** | 외부 AI API와 연동 및 검수 프롬프트를 전달한다. |
 
-### 8) View Detailed Report
+### 8) View Detailed Technical Report
 | 구분 | 내용 |
 | :--- | :--- |
-| **Purpose** | 기술 검수 또는 AI분석의 상세 결과를 시각적으로 확인하고 저장. |
-| **Approach** | 각 분석이 완료되면 이미지별로 오류 내역을 확인하거나, AI가 분석한 감정 분포를 차트 형태로 화면에 렌더링하여 검수 및 데이터를 서버에 저장한다. |
-| **Dynamics** | 기술 검수 또는 AI 분석 요청이 완료되어 시스템으로부터 결과가 반환된 직후. |
-| **Goals** | 검수 리포트 팝업 및 차트를 시각화하여 사용자에게 직관적인 피드백을 제공한다. |
+| **Purpose** | 기술 검수 상세 결과를 시각적으로 확인하고 저장. |
+| **Approach** | 기술 검수가 완료되면 이미지별로 오류 내역을 확인하거나, 수정 후 재업로드 할 수 있으며 검수 데이터를 서버에 저장한다. |
+| **Dynamics** | 기술 검수 요청이 완료되어 시스템으로부터 결과가 반환된 직후. |
+| **Goals** | 검수 내용 및 에러 픽셀 위치를 시각화하여 사용자에게 직관적인 피드백을 제공한다. |
 
-### 9) View Personal Dashboard
+### 9) View Detailed AI Report
+| 구분 | 내용 |
+| :--- | :--- |
+| **Purpose** | AI분석의 상세 결과를 시각적으로 확인하고 저장. |
+| **Approach** | AI 분석이 완료되면 AI가 분석한 감정 분포를 차트 형태로 화면에 렌더링하거나 키워드 등을 추출한 분석 데이터를 서버에 저장한다. |
+| **Dynamics** | AI 분석 요청이 완료되어 시스템으로부터 결과가 반환된 직후. |
+| **Goals** | 분석 데이터를 차트로 시각화하여 사용자에게 직관적인 피드백을 제공한다. |
+
+### 10) View Personal Dashboard
 | 구분 | 내용 |
 | :--- | :--- |
 | **Purpose** | 과거에 작업했던 이모티콘 프로젝트 목록과 검수 기록을 조회. |
@@ -218,7 +232,7 @@
 | **Dynamics** | 사용자가 이전 작업 내역 및 피드백 기록을 다시 열람하고자 할 경우. |
 | **Goals** | DB에서 해당 사용자의 id를 기반으로 과거 작업 이력을 조회한다. |
 
-### 10) Simulate Emoticon on Chat UI
+### 11) Simulate Emoticon on Chat UI
 | 구분 | 내용 |
 | :--- | :--- |
 | **Purpose** | 실제 메신저 환경에서의 시각적 오류 및 가독성을 점검. |
@@ -226,7 +240,7 @@
 | **Dynamics** | 이미지 업로드 후, 테마별 가독성 및 시각적 퀄리티를 눈으로 직접 확인한다. |
 | **Goals** | 실제와 동일한 채팅방 UI를 조성하고 테마를 전환하여 시뮬레이션한다. |
 
-### 11) Reset Current Workspace
+### 12) Reset Current Workspace
 | 구분 | 내용 |
 | :--- | :--- |
 | **Purpose** | 현재 진행 중인 세션을 초기화하여 새로운 작업을 준비. |
