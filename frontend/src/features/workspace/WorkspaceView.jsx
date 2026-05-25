@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './WorkspaceView.css';
 
 import SimulatorView from './subviews/simulator/SimulatorView';
@@ -9,9 +9,26 @@ const WorkspaceView = ({ onNavigate, data, onUpdateImage, onSaveReport, onSavePr
     const [activeTab, setActiveTab] = useState('simulator');
 
     const [showResetModal, setShowResetModal] = useState(false);
+    const [localTitle, setLocalTitle] = useState(data?.title || '');
+
+    useEffect(() => {
+        setLocalTitle(data?.title || '');
+    }, [data?.title]);
 
     const handleTitleChange = (e) => {
-        onSaveProject({ ...data, title: e.target.value });
+        setLocalTitle(e.target.value);
+    };
+
+    const handleTitleBlur = () => {
+        if (localTitle !== data?.title) {
+            onSaveProject({ ...data, title: localTitle });
+        }
+    };
+
+    const handleTitleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            e.target.blur();
+        }
     };
 
     // 세션 종료 시 자동 저장 후 대시보드 이동
@@ -34,8 +51,10 @@ const WorkspaceView = ({ onNavigate, data, onUpdateImage, onSaveReport, onSavePr
                         <input
                             type="text"
                             className="project-title-input"
-                            value={data?.title || ''}
+                            value={localTitle}
                             onChange={handleTitleChange}
+                            onBlur={handleTitleBlur}
+                            onKeyDown={handleTitleKeyDown}
                             placeholder="프로젝트 제목 입력..."
                         />
                     </div>

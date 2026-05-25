@@ -32,6 +32,17 @@ public class WorkspaceController {
         return ResponseEntity.ok(workspaceService.createProject(userId, req.getTitle(), req.getImageUrls()));
     }
 
+    @PutMapping("/{projectId}")
+    public ResponseEntity<Project> updateProject(@PathVariable Long projectId, @RequestBody ProjectUpdateRequest req) {
+        return ResponseEntity.ok(workspaceService.updateProject(projectId, req.getTitle(), req.getStatus()));
+    }
+
+    @lombok.Data
+    static class ProjectUpdateRequest {
+        private String title;
+        private String status;
+    }
+
     @lombok.Data
     static class ProjectCreateRequest {
         private String title;

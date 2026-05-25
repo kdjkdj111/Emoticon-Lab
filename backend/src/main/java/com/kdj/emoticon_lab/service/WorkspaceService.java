@@ -66,6 +66,17 @@ public class WorkspaceService {
         return project;
     }
 
+    @Transactional
+    public Project updateProject(Long projectId, String title, String status) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
+        
+        if (title != null) project.updateTitle(title);
+        if (status != null) project.updateStatus(status);
+        
+        return projectRepository.save(project);
+    }
+
     @Transactional(readOnly = true)
     public com.kdj.emoticon_lab.dto.ProjectDetailDto getProjectDetail(Long projectId) {
         Project project = projectRepository.findById(projectId)

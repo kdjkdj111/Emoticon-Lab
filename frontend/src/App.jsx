@@ -47,7 +47,20 @@ function App() {
           aiReport: null,
           technicalReport: null
         }));
-        setProjects(mappedData);
+        setProjects(prevProjects => {
+          return mappedData.map(p => {
+            const existing = prevProjects.find(existingProj => existingProj.id === p.id);
+            if (existing) {
+              return {
+                ...p,
+                uploadedImages: existing.uploadedImages?.length > 0 ? existing.uploadedImages : p.uploadedImages,
+                aiReport: existing.aiReport || p.aiReport,
+                technicalReport: existing.technicalReport || p.technicalReport
+              };
+            }
+            return p;
+          });
+        });
       }
     } catch (e) {
       console.error("Failed to fetch projects", e);
@@ -168,8 +181,23 @@ function App() {
         console.error("Failed to create project", e);
       }
     } else {
-        // 기존 상태 업데이트
-        setProjects(prev => prev.map(p => p.id === activeProjectId ? { ...p, ...updatedData } : p));
+      // 기존 프로젝트 업데이트 로직 (백엔드 통신 추가)
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/projects/${activeProjectId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            title: updatedData.title, 
+            status: updatedData.status 
+          })
+        });
+        if (res.ok) {
+          // 프론트엔드 상태 업데이트
+          setProjects(prev => prev.map(p => p.id === activeProjectId ? { ...p, ...updatedData } : p));
+        }
+      } catch (e) {
+        console.error("Failed to update project", e);
+      }
     }
   };
 
@@ -184,18 +212,23 @@ function App() {
         {currentView === 'upload' && (
             <UploadView 
                 onNavigate={(view, data) => {
+                    if (view === 'start' || view === 'dashboard') {
+                        handleNavigate(view);
+                        return;
+                    }
                     // 업로드 후 백엔드 프로젝트 생성 요청
                     handleSaveProject({ 
                         title: '신규 이모티콘 세트', 
                         isNew: true, 
-                        uploadedImages: data.uploadedImages 
+                        uploadedImages: data?.uploadedImages || []
                     });
                 }} 
             />
         )}
 
         {currentView === 'workspace' && (
-            <WorkspaceView
+            <WorkspaceView 
+                key={currentProject?.id}
                 onNavigate={handleNavigate}
                 data={currentProject}
                 onUpdateImage={handleUpdateImage}
