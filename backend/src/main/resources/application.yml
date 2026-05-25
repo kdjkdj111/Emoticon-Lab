@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: emoticon-lab-backend
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    url: ${SUPABASE_DB_URL:jdbc:postgresql://aws-0-ap-northeast-2.pooler.supabase.com:6543/postgres?sslmode=require&prepareThreshold=0}
+    username: ${SUPABASE_USER:postgres.[YOUR_PROJECT_REF]}
+    password: ${SUPABASE_PASSWORD:your_password_here}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+cors:
+  allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173}
+
+# Gemini API Configuration
+gemini:
+  api:
+    key: ${GEMINI_API_KEY:your_gemini_key_here}
+    url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
