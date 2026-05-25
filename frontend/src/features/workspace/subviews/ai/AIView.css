@@ -203,6 +203,14 @@
     height: 180px;
 }
 
+.chart-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 180px;
+    padding: 1rem 0;
+}
+
 .donut-chart-wrapper {
     position: relative;
     display: flex;
@@ -235,6 +243,8 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    max-height: 180px;
+    overflow-y: auto;
 }
 
 .warning-badge,

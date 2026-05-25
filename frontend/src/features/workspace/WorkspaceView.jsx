@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import './WorkspaceView.css';
 
-import SimulatorView from './SimulatorView';
-import TechnicalView from './TechnicalView';
-import AIView from './AIView.jsx';
+import SimulatorView from './subviews/simulator/SimulatorView';
+import TechnicalView from './subviews/technical/TechnicalView';
+import AIView from './subviews/ai/AIView';
 
 const WorkspaceView = ({ onNavigate, data, onUpdateImage, onSaveReport, onSaveProject }) => {
     const [activeTab, setActiveTab] = useState('simulator');
@@ -57,26 +57,28 @@ const WorkspaceView = ({ onNavigate, data, onUpdateImage, onSaveReport, onSavePr
             </nav>
 
             <div className="workspace-body">
-                {activeTab === 'simulator' && (
+                <div className="tab-wrapper" style={{ display: activeTab === 'simulator' ? 'flex' : 'none' }}>
                     <SimulatorView uploadedImages={data?.uploadedImages} />
-                )}
+                </div>
 
-                {activeTab === 'technical' && (
+                <div className="tab-wrapper" style={{ display: activeTab === 'technical' ? 'flex' : 'none' }}>
                     <TechnicalView
+                        projectId={data?.id}
                         uploadedImages={data?.uploadedImages}
                         reportData={data?.technicalReport}
                         onUpdateImage={onUpdateImage}
                         onSaveReport={(report) => onSaveReport('technicalReport', report)}
                     />
-                )}
+                </div>
 
-                {activeTab === 'ai' && (
+                <div className="tab-wrapper" style={{ display: activeTab === 'ai' ? 'flex' : 'none' }}>
                     <AIView
+                        projectId={data?.id}
                         uploadedImages={data?.uploadedImages}
                         reportData={data?.aiReport}
                         onSaveReport={(report) => onSaveReport('aiReport', report)}
                     />
-                )}
+                </div>
             </div>
 
             {showResetModal && (

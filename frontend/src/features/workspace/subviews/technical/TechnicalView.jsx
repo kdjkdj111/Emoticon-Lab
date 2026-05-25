@@ -9,9 +9,8 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import './TechnicalView.css';
-import { mockAnalysisResults as fallbackData } from '../mocks/mockData';
 
-const TechnicalView = ({ uploadedImages = [], onUpdateImage, reportData, onSaveReport }) => {
+const TechnicalView = ({ projectId, uploadedImages = [], onUpdateImage, reportData, onSaveReport }) => {
 
     // ==========================================
     // [1] State: API 통신 및 진행 상태 관리
@@ -35,65 +34,48 @@ const TechnicalView = ({ uploadedImages = [], onUpdateImage, reportData, onSaveR
     // [4] Methods & Handlers
     // ==========================================
 
-    /**
-     * @method processAnalysisData
-     * @description 백엔드(Spring) 기술 검수 API의 응답 데이터를 프론트엔드 UI 규격에 맞게 파싱 및 매핑
-     * @param {Array} images - 분석을 요청한 원본 이미지 리스트
-     * @returns {Array} 에러 유형, 좌표(coords), 권장 수정 사항이 포함된 리포트 객체 배열
-     */
-    const processAnalysisData = (images) => {
-        if (!images || images.length === 0) return fallbackData;
 
-        // TODO: 실제 API 연동 시 response.data.errors 형태의 서버 응답을 매핑하는 로직으로 대체
-        const targetImages = images.slice(0, Math.min(images.length, 4));
-        const serverErrorTypes = [
-            { type: 'pixel', message: '외곽선 주변에 미세한 픽셀 노이즈가 발견되었습니다.', coords: { x: 120, y: 85 }, rec: '해당 영역의 픽셀을 완전히 삭제하거나 투명도를 0%로 조정해 주세요.' },
-            { type: 'size', message: '이미지 사이즈가 규격(360x360)을 초과했습니다. (362x360)', coords: null, rec: '캔버스 사이즈를 360x360px로 정확히 맞춰서 다시 내보내기 해주세요.' },
-            { type: 'pixel', message: '배경 투명화가 덜 된 영역이 발견되었습니다.', coords: { x: 220, y: 190 }, rec: '알파 채널(투명도)이 1~5% 남아있는 픽셀이 있습니다. 지우개 툴로 확실히 지워주세요.' },
-            { type: 'format', message: 'RGB 컬러모드가 아닙니다. (CMYK)', coords: null, rec: '문서의 컬러 모드를 RGB로 변경 후 저장해 주세요.' },
-        ];
-
-        return targetImages.map((img, index) => {
-            const template = serverErrorTypes[index % serverErrorTypes.length];
-            return {
-                slot: img.id,
-                previewUrl: img.previewUrl,
-                type: template.type,
-                message: template.message,
-                coords: template.coords,
-                recommendation: template.rec
-            };
-        });
-    };
 
     /**
      * @handler handleStartAnalysis
      * @description '분석 시작' 요청. 로딩 상태를 표시하고 API 호출 완료 후 데이터를 상태에 동기화
      */
-    const handleStartAnalysis = () => {
+    const handleStartAnalysis = async () => {
         setAnalysisStatus('analyzing');
-        setAnalysisProgress(0);
-
-        // TODO: setInterval은 실제 API 구현 시 axios 통신 및 진행률(Polling/SSE) 로직으로 대체
-        const pollingInterval = setInterval(() => {
-            setAnalysisProgress(prev => {
-                if (prev >= 100) {
-                    clearInterval(pollingInterval);
-
-                    // 1. 서버 응답 데이터 파싱
-                    const parsedResults = processAnalysisData(uploadedImages);
-                    setDynamicResults(parsedResults);
-                    setSelectedErrorSlot(parsedResults[0]);
-                    setAnalysisStatus('completed');
-
-                    // 2. 파싱된 결과를 전역 상태(Context/부모 State)에 캐싱
-                    if (onSaveReport) onSaveReport({ results: parsedResults });
-
-                    return 100;
-                }
-                return prev + 10;
+        setAnalysisProgress(50);
+        try {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/analysis/technical/${projectId}`, {
+                method: 'POST'
             });
-        }, 300);
+            setAnalysisProgress(100);
+            if (res.ok) {
+                const data = await res.json();
+                const rawErrors = data.errorDetails?.errors || [];
+                
+                const enrichedResults = rawErrors.map(err => {
+                    const matchedImg = uploadedImages.find(img => img.id === err.slot);
+                    return {
+                        ...err,
+                        previewUrl: matchedImg ? (matchedImg.previewUrl || matchedImg.supabaseUrl) : null,
+                        recommendation: err.type === 'pixel' || err.type === 'margin' 
+                            ? '해당 영역의 픽셀을 완전히 삭제하거나 투명도를 0%로 조정해 주세요.' 
+                            : '이미지 규격(360x360)을 정확히 맞춰서 다시 내보내기 해주세요.'
+                    };
+                });
+
+                setDynamicResults(enrichedResults);
+                setSelectedErrorSlot(enrichedResults.length > 0 ? enrichedResults[0] : null);
+                setAnalysisStatus('completed');
+                if (onSaveReport) onSaveReport({ results: enrichedResults });
+            } else {
+                alert('서버 분석 실패!');
+                setAnalysisStatus('ready');
+            }
+        } catch (e) {
+            console.error(e);
+            alert('네트워크 오류');
+            setAnalysisStatus('ready');
+        }
     };
 
     /**

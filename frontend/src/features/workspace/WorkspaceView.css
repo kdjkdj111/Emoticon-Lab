@@ -167,6 +167,14 @@
   overflow: hidden;
 }
 
+.tab-wrapper {
+  flex: 1;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
 /* Common Animations */
 .fade-in {
   animation: fadeIn 0.4s ease-out forwards;

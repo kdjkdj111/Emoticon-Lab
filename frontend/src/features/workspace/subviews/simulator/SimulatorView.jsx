@@ -6,7 +6,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import './SimulatorView.css';
-import { mockEmoticons, mockMessages as initialMessages } from '../mocks/mockData';
 
 const SimulatorView = ({ uploadedImages = [] }) => {
     // ==========================================
@@ -21,7 +20,7 @@ const SimulatorView = ({ uploadedImages = [] }) => {
     // ==========================================
     const [inputs, setInputs] = useState({ sender: "", receiver: "" }); // 각 디바이스의 입력창 상태
     const [keyboards, setKeyboards] = useState({ sender: true, receiver: false }); // 이모티콘 키보드 활성화 여부
-    const [messages, setMessages] = useState(initialMessages || []); // 전체 채팅 메시지 내역
+    const [messages, setMessages] = useState([]); // 전체 채팅 메시지 내역
 
     // ==========================================
     // [3] State: 유틸리티 (시간, 스크롤, 이모티콘 리스트)
@@ -29,10 +28,10 @@ const SimulatorView = ({ uploadedImages = [] }) => {
     const [currentTime, setCurrentTime] = useState(new Date());
     const messagesEndRef = useRef(null);
 
-    // 업로드된 이미지가 있으면 우선 사용, 없으면 Mock 데이터 폴백
+    // 업로드된 이미지가 있으면 우선 사용, 없으면 빈 배열
     const activeEmoticons = uploadedImages && uploadedImages.length > 0
-        ? uploadedImages.map(img => img.previewUrl)
-        : mockEmoticons;
+        ? uploadedImages.map(img => img.previewUrl || img.supabaseUrl)
+        : [];
 
     // ==========================================
     // [4] Effects
