@@ -1,14 +1,24 @@
 import React from 'react';
 
-const ProjectCard = React.memo(({ project, onClick }) => {
+const ProjectCard = React.memo(({ project, onClick, onDelete }) => {
   const thumbnailUrl = project.uploadedImages?.[0]?.previewUrl || project.thumbnail;
   const statusClass = project.status === '검수 완료' ? 'status-success' : 'status-warning';
+
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    if (window.confirm('정말로 이 프로젝트를 삭제하시겠습니까?')) {
+      onDelete(project.id);
+    }
+  };
 
   return (
     <div 
       className="project-card" 
       onClick={() => onClick(project.id)}
     >
+      <button className="btn-delete-project" onClick={handleDelete} title="프로젝트 삭제">
+        ✕
+      </button>
       <div className="project-thumbnail">
         {thumbnailUrl ? (
           <img

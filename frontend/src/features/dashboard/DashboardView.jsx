@@ -3,7 +3,7 @@ import ProjectCard from './components/ProjectCard';
 import EmptyProjectState from './components/EmptyProjectState';
 import './DashboardView.css';
 
-const DashboardView = ({ onNavigate, projects = [] }) => {
+const DashboardView = ({ onNavigate, projects = [], onDeleteProject }) => {
   
   const handleProjectClick = useCallback((projectId) => {
     onNavigate('workspace', projectId);
@@ -46,6 +46,7 @@ const DashboardView = ({ onNavigate, projects = [] }) => {
                 key={project.id} 
                 project={project} 
                 onClick={handleProjectClick} 
+                onDelete={onDeleteProject}
               />
             ))
           )}

@@ -115,6 +115,36 @@
   display: flex;
   gap: 1.2rem;
   align-items: center;
+  position: relative;
+}
+
+.btn-delete-project {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: none;
+  border: none;
+  color: #CCCCCC;
+  font-size: 0.9rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+.project-card:hover .btn-delete-project {
+  opacity: 1;
+}
+
+.btn-delete-project:hover {
+  background-color: #FFF0F0;
+  color: #FF5252;
 }
 
 .project-card:hover {

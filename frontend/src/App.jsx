@@ -201,23 +201,43 @@ function App() {
     }
   };
 
+  const handleDeleteProject = async (projectId) => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/projects/${projectId}`, {
+        method: 'DELETE'
+      });
+      if (res.ok) {
+        setProjects(prev => prev.filter(p => p.id !== projectId));
+        if (currentView === 'workspace') {
+          handleNavigate('upload');
+        }
+      }
+    } catch (e) {
+      console.error("Failed to delete project", e);
+    }
+  };
+
   return (
       <div className="app-container">
         {currentView === 'start' && <StartView onNavigate={handleNavigate} />}
 
         {currentView === 'dashboard' && (
-            <DashboardView onNavigate={handleNavigate} projects={projects} />
+            <DashboardView 
+                onNavigate={handleNavigate} 
+                projects={projects} 
+                onDeleteProject={handleDeleteProject}
+            />
         )}
 
         {currentView === 'upload' && (
             <UploadView 
-                onNavigate={(view, data) => {
+                onNavigate={async (view, data) => {
                     if (view === 'start' || view === 'dashboard') {
-                        handleNavigate(view);
+                        await handleNavigate(view);
                         return;
                     }
                     // 업로드 후 백엔드 프로젝트 생성 요청
-                    handleSaveProject({ 
+                    await handleSaveProject({ 
                         title: '신규 이모티콘 세트', 
                         isNew: true, 
                         uploadedImages: data?.uploadedImages || []
@@ -234,6 +254,7 @@ function App() {
                 onUpdateImage={handleUpdateImage}
                 onSaveReport={handleSaveReport}
                 onSaveProject={handleSaveProject}
+                onDeleteProject={() => handleDeleteProject(currentProject?.id)}
             />
         )}
       </div>
