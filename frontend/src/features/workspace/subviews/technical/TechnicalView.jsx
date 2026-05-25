@@ -215,17 +215,20 @@ const TechnicalView = ({ projectId, uploadedImages = [], onUpdateImage, reportDa
                                             <span className="emoji-huge">🎨</span>
                                         )}
 
-                                        {/* 서버에서 전달받은 좌표에 크로스헤어 마커 렌더링 */}
+                                        {/* 서버에서 전달받은 좌표에 트렌디 마커 렌더링 */}
                                         {selectedErrorSlot.coords && (
                                             <div
                                                 className="error-crosshair"
                                                 style={{
-                                                    left: `${selectedErrorSlot.coords.x}px`,
-                                                    top: `${selectedErrorSlot.coords.y}px`
+                                                    left: `${(selectedErrorSlot.coords.x / 360) * 100}%`,
+                                                    top: `${(selectedErrorSlot.coords.y / 360) * 100}%`
                                                 }}
                                             >
-                                                <div className="crosshair-target"></div>
-                                                <div className="crosshair-label">Issue Point</div>
+                                                <div className="marker-pulse-container">
+                                                    <div className="marker-pulse"></div>
+                                                    <div className="marker-core"></div>
+                                                </div>
+                                                <div className="marker-tooltip">수정 포인트</div>
                                             </div>
                                         )}
                                     </div>
