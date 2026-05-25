@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface TechnicalReportRepository extends JpaRepository<TechnicalReport, Long> {
     Optional<TechnicalReport> findByProjectId(Long projectId);
+    void deleteByProjectId(Long projectId);
 }

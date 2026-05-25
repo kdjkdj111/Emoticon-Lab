@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface AiReportRepository extends JpaRepository<AiReport, Long> {
     Optional<AiReport> findByProjectId(Long projectId);
+    void deleteByProjectId(Long projectId);
 }

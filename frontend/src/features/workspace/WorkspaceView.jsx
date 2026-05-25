@@ -5,7 +5,7 @@ import SimulatorView from './subviews/simulator/SimulatorView';
 import TechnicalView from './subviews/technical/TechnicalView';
 import AIView from './subviews/ai/AIView';
 
-const WorkspaceView = ({ onNavigate, data, onUpdateImage, onSaveReport, onSaveProject }) => {
+const WorkspaceView = ({ onNavigate, data, onUpdateImage, onSaveReport, onSaveProject, onDeleteProject }) => {
     const [activeTab, setActiveTab] = useState('simulator');
 
     const [showResetModal, setShowResetModal] = useState(false);
@@ -108,7 +108,7 @@ const WorkspaceView = ({ onNavigate, data, onUpdateImage, onSaveReport, onSavePr
                         <p>현재 작업 중인 모든 데이터와 <br/>분석 결과가 사라집니다.<br/>정말 초기화하시겠습니까?</p>
                         <div className="modal-actions">
                             <button className="btn-modal-cancel" onClick={() => setShowResetModal(false)}>취소</button>
-                            <button className="btn-modal-confirm" onClick={() => onNavigate('upload')}>초기화하기</button>
+                            <button className="btn-modal-confirm" onClick={() => onDeleteProject()}>초기화(삭제)하기</button>
                         </div>
                     </div>
                 </div>

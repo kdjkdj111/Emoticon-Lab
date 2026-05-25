@@ -23,8 +23,15 @@ public class AnalysisController {
     }
 
     @PostMapping("/ai/{projectId}")
-    public ResponseEntity<AiReport> requestAiAnalysis(@PathVariable Long projectId) {
-        AiReport report = aiAnalysisService.analyzeWithGemini(projectId);
+    public ResponseEntity<AiReport> requestAiAnalysis(@PathVariable Long projectId, @RequestBody(required = false) AiAnalysisRequest req) {
+        AiReport report = aiAnalysisService.analyzeWithGemini(projectId, req);
         return ResponseEntity.ok(report);
+    }
+
+    @lombok.Data
+    public static class AiAnalysisRequest {
+        private String ageGroup;
+        private String type;
+        private String description;
     }
 }

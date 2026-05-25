@@ -12,11 +12,19 @@ const UploadView = ({ onNavigate }) => {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleStartInspection = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    
     const uploadedImages = await uploadToServer();
     if (uploadedImages) {
-      onNavigate('workspace', { uploadedImages });
+      await onNavigate('workspace', { uploadedImages });
     }
+    
+    // 네비게이션 실패 혹은 지연 시를 위한 초기화
+    setIsSubmitting(false);
   };
 
   const handleDrop = (e) => {
@@ -78,8 +86,8 @@ const UploadView = ({ onNavigate }) => {
                   </div>
                 </div>
                 <div className="panel-footer-v2">
-                  <button className="btn-primary-full" disabled={uploadedCount === 0 || isUploading} onClick={handleStartInspection}>
-                    {isUploading ? '업로드 중...' : (uploadedCount === 0 ? '파일을 등록해주세요' : '서버에 저장 후 분석 시작')}
+                  <button className="btn-primary-full" disabled={uploadedCount === 0 || isUploading || isSubmitting} onClick={handleStartInspection}>
+                    {isUploading ? '이미지 업로드 중...' : isSubmitting ? '프로젝트 생성 중...' : (uploadedCount === 0 ? '파일을 등록해주세요' : '서버에 저장 후 분석 시작')}
                   </button>
                 </div>
               </div>

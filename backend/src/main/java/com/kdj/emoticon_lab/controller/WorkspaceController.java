@@ -37,8 +37,14 @@ public class WorkspaceController {
         return ResponseEntity.ok(workspaceService.updateProject(projectId, req.getTitle(), req.getStatus()));
     }
 
+    @DeleteMapping("/{projectId}")
+    public ResponseEntity<Void> deleteProject(@PathVariable Long projectId) {
+        workspaceService.deleteProject(projectId);
+        return ResponseEntity.noContent().build();
+    }
+
     @lombok.Data
-    static class ProjectUpdateRequest {
+    public static class ProjectUpdateRequest {
         private String title;
         private String status;
     }

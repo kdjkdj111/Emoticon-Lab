@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface EmoticonImageRepository extends JpaRepository<EmoticonImage, Long> {
     List<EmoticonImage> findByProjectIdOrderBySlotIndexAsc(Long projectId);
+    void deleteByProjectId(Long projectId);
 }

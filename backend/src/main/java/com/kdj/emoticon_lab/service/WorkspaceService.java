@@ -77,6 +77,14 @@ public class WorkspaceService {
         return projectRepository.save(project);
     }
 
+    @Transactional
+    public void deleteProject(Long projectId) {
+        aiReportRepository.deleteByProjectId(projectId);
+        technicalReportRepository.deleteByProjectId(projectId);
+        imageRepository.deleteByProjectId(projectId);
+        projectRepository.deleteById(projectId);
+    }
+
     @Transactional(readOnly = true)
     public com.kdj.emoticon_lab.dto.ProjectDetailDto getProjectDetail(Long projectId) {
         Project project = projectRepository.findById(projectId)

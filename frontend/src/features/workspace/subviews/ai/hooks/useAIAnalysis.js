@@ -12,7 +12,9 @@ export const useAIAnalysis = (projectId, initialData, onSaveReport) => {
     setAiStatus('analyzing');
     try {
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/analysis/ai/${projectId}`, {
-        method: 'POST'
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
       });
       if (res.ok) {
         const data = await res.json();
