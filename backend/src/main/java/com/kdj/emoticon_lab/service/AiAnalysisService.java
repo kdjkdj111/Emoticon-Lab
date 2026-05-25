@@ -9,6 +9,7 @@ import com.kdj.emoticon_lab.domain.Project;
 import com.kdj.emoticon_lab.repository.AiReportRepository;
 import com.kdj.emoticon_lab.repository.EmoticonImageRepository;
 import com.kdj.emoticon_lab.repository.ProjectRepository;
+import com.kdj.emoticon_lab.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +31,7 @@ public class AiAnalysisService {
     private final ProjectRepository projectRepository;
     private final EmoticonImageRepository imageRepository;
     private final AiReportRepository aiReportRepository;
+    private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
 
     @Value("${gemini.api.key}")
@@ -38,7 +40,7 @@ public class AiAnalysisService {
     @Value("${gemini.api.url}")
     private String geminiApiUrl;
 
-    public AiReport analyzeWithGemini(Long projectId) {
+    public AiReport analyzeWithGemini(Long projectId, com.kdj.emoticon_lab.controller.AnalysisController.AiAnalysisRequest req) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new IllegalArgumentException("Project not found"));
 
@@ -47,7 +49,20 @@ public class AiAnalysisService {
         // 1. Download images and encode to Base64
         List<Map<String, Object>> parts = new java.util.ArrayList<>();
         
-        String prompt = """
+        String userContext = "";
+        if (req != null) {
+            String translatedType = "멈춰있는 이모티콘";
+            if ("animated".equals(req.getType())) translatedType = "움직이는 이모티콘";
+            else if ("big".equals(req.getType())) translatedType = "큰 이모티콘";
+            
+            userContext = "[제작자의 기획 의도]\n" +
+                          "- 타겟 연령층: " + req.getAgeGroup() + "\n" +
+                          "- 이모티콘 종류: " + translatedType + "\n" +
+                          "- 부가 설명: " + req.getDescription() + "\n\n" +
+                          "심사위원님, 위 기획 의도를 바탕으로 타겟층의 공감대와 상품성(vibe, emotion)을 중점적으로 심사해 주세요.\n\n";
+        }
+
+        String prompt = userContext + """
                 당신은 카카오톡 이모티콘 스튜디오의 매우 엄격한 수석 심사위원입니다.
                 실제 카카오톡 이모티콘 승인율은 매우 낮으며, 심사 기준은 까다롭습니다.
                 제공된 이모티콘 이미지(최대 32장)들을 매의 눈으로 분석하여 다음 5가지 지표를 아주 냉정하고 비판적으로 평가하세요.
@@ -172,6 +187,11 @@ public class AiAnalysisService {
             
             project.updateStatus("AI_COMPLETED");
             projectRepository.save(project);
+            
+            com.kdj.emoticon_lab.domain.User user = project.getUser();
+            user.incrementApiUsage();
+            userRepository.save(user);
+            
             return aiReportRepository.save(report);
             
         } catch (Exception e) {
