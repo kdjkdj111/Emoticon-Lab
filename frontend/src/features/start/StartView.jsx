@@ -8,23 +8,23 @@ const StartView = ({ onNavigate }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [nickname, setNickname] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     // Supabase 로그인 처리
     const handleLogin = async () => {
-        setLoading(true);
+        setIsLoading(true);
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
             alert(error.message);
         } else {
             onNavigate('dashboard');
         }
-        setLoading(false);
+        setIsLoading(false);
     };
 
     // Supabase 회원가입 처리
     const handleSignup = async () => {
-        setLoading(true);
+        setIsLoading(true);
         const { error } = await supabase.auth.signUp({
             email,
             password,
@@ -36,7 +36,7 @@ const StartView = ({ onNavigate }) => {
             alert('가입 성공! 이제 로그인해주세요.');
             setMode('login');
         }
-        setLoading(false);
+        setIsLoading(false);
     };
 
     const handleStartClick = async () => {
@@ -87,8 +87,8 @@ const StartView = ({ onNavigate }) => {
                             <input type="email" placeholder="이메일 주소" className="auth-input" value={email} onChange={e => setEmail(e.target.value)} />
                             <input type="password" placeholder="비밀번호" className="auth-input" value={password} onChange={e => setPassword(e.target.value)} />
                             <div className="button-group" style={{ marginTop: '1.5rem' }}>
-                                <button className="btn btn-start" onClick={handleLogin} disabled={loading}>로그인</button>
-                                <button className="btn btn-secondary" onClick={() => setMode('signup')} disabled={loading}>회원가입 하기</button>
+                                <button className="btn btn-start" onClick={handleLogin} disabled={isLoading}>로그인</button>
+                                <button className="btn btn-secondary" onClick={() => setMode('signup')} disabled={isLoading}>회원가입 하기</button>
                             </div>
                         </div>
                         <button className="logout-link" onClick={() => setMode('landing')}>뒤로가기</button>
@@ -103,8 +103,8 @@ const StartView = ({ onNavigate }) => {
                             <input type="email" placeholder="이메일 주소" className="auth-input" value={email} onChange={e => setEmail(e.target.value)} />
                             <input type="password" placeholder="비밀번호" className="auth-input" value={password} onChange={e => setPassword(e.target.value)} />
                             <div className="button-group" style={{ marginTop: '1.5rem' }}>
-                                <button className="btn btn-start" onClick={handleSignup} disabled={loading}>가입하기</button>
-                                <button className="btn btn-secondary" onClick={() => setMode('login')} disabled={loading}>이미 계정이 있으신가요?</button>
+                                <button className="btn btn-start" onClick={handleSignup} disabled={isLoading}>가입하기</button>
+                                <button className="btn btn-secondary" onClick={() => setMode('login')} disabled={isLoading}>이미 계정이 있으신가요?</button>
                             </div>
                         </div>
                         <button className="logout-link" onClick={() => setMode('landing')}>뒤로가기</button>

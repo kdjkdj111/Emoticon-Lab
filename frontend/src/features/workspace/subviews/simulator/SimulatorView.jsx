@@ -19,7 +19,8 @@ const SimulatorView = ({ uploadedImages = [] }) => {
     // [2] State: 채팅 UI 제어
     // ==========================================
     const [inputs, setInputs] = useState({ sender: "", receiver: "" }); // 각 디바이스의 입력창 상태
-    const [keyboards, setKeyboards] = useState({ sender: true, receiver: false }); // 이모티콘 키보드 활성화 여부
+    const [senderKeyboard, setSenderKeyboard] = useState(true); // 발신자 이모티콘 키보드 활성화 여부
+    const [receiverKeyboard, setReceiverKeyboard] = useState(false); // 수신자 이모티콘 키보드 활성화 여부
     const [messages, setMessages] = useState([]); // 전체 채팅 메시지 내역
 
     // ==========================================
@@ -43,7 +44,7 @@ const SimulatorView = ({ uploadedImages = [] }) => {
      */
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [messages, keyboards.sender, keyboards.receiver]);
+    }, [messages, senderKeyboard, receiverKeyboard]);
 
     /**
      * @effect 상단 상태바 시계
@@ -119,7 +120,7 @@ const SimulatorView = ({ uploadedImages = [] }) => {
     const renderPhone = (role, settings) => {
         const isSenderPhone = role === 'sender';
         const inputValue = inputs[role];
-        const isKeyboardOpen = keyboards[role];
+        const isKeyboardOpen = role === 'sender' ? senderKeyboard : receiverKeyboard;
 
         return (
             <div className={`phone-container ${role}`}>
@@ -195,7 +196,7 @@ const SimulatorView = ({ uploadedImages = [] }) => {
                         />
                         <button
                             className={`input-emoji-btn ${isKeyboardOpen ? 'active' : ''}`}
-                            onClick={() => setKeyboards(prev => ({ ...prev, [role]: !prev[role] }))}
+                            onClick={() => role === 'sender' ? setSenderKeyboard(prev => !prev) : setReceiverKeyboard(prev => !prev)}
                         >
                             😊
                         </button>
