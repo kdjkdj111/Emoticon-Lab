@@ -73,9 +73,6 @@ const StartView = ({ onNavigate }) => {
                             <button className="btn btn-start" onClick={handleStartClick}>
                                 시작하기 <span className="arrow">→</span>
                             </button>
-                            <button className="logout-link" onClick={handleLogout}>
-                                로그아웃
-                            </button>
                         </div>
                     </div>
                 )}
@@ -107,7 +104,6 @@ const StartView = ({ onNavigate }) => {
                                 <button className="btn btn-secondary" onClick={() => setMode('login')} disabled={isLoading}>이미 계정이 있으신가요?</button>
                             </div>
                         </div>
-                        <button className="logout-link" onClick={() => setMode('landing')}>뒤로가기</button>
                     </div>
                 )}
             </div>

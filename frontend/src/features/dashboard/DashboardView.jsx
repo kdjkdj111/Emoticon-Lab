@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import ProjectCard from './components/ProjectCard';
 import EmptyProjectState from './components/EmptyProjectState';
+import { supabase } from '../../utils/supabaseClient';
 import './DashboardView.css';
 
 const DashboardView = ({ onNavigate, projects = [], onDeleteProject }) => {
@@ -8,6 +9,10 @@ const DashboardView = ({ onNavigate, projects = [], onDeleteProject }) => {
   const handleProjectClick = useCallback((projectId) => {
     onNavigate('workspace', projectId);
   }, [onNavigate]);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+  };
 
   return (
     <div className="history-view fade-in">
@@ -17,7 +22,7 @@ const DashboardView = ({ onNavigate, projects = [], onDeleteProject }) => {
         </div>
         <div className="header-actions">
           <span className="user-greeting">동준님 👋</span>
-          <button className="btn btn-secondary btn-logout" onClick={() => onNavigate('start')}>
+          <button className="btn btn-secondary btn-logout" onClick={handleLogout}>
             로그아웃
           </button>
         </div>
