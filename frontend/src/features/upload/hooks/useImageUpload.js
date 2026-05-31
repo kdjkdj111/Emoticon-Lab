@@ -21,8 +21,8 @@ export const useImageUpload = (totalSlots = 32) => {
   }, []);
 
   const processFiles = useCallback((files) => {
-    const imageFiles = Array.from(files).filter(f => f.type.startsWith('image/'));
-    if (imageFiles.length === 0) return alert('이미지 파일만 업로드 가능합니다.');
+    const imageFiles = Array.from(files).filter(f => f.type === 'image/png');
+    if (imageFiles.length === 0) return alert('PNG 형식의 이미지만 업로드 가능합니다.');
 
     setSlots(prev => {
       const newSlots = [...prev];

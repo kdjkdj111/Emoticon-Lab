@@ -91,6 +91,13 @@ const TechnicalView = ({ projectId, uploadedImages = [], onUpdateImage, reportDa
     const handleFileChange = (e) => {
         const file = e.target.files?.[0];
         if (file && selectedErrorSlot) {
+            // PNG 규격 검사 추가
+            if (file.type !== 'image/png') {
+                alert('교체 실패: PNG 형식의 이미지만 업로드 가능합니다.');
+                e.target.value = null;
+                return;
+            }
+
             // 1. 부모 컴포넌트에 파일 교체 이벤트 전달 (서버 재업로드 트리거)
             if (onUpdateImage) onUpdateImage(selectedErrorSlot.slot, file);
             alert(`${selectedErrorSlot.slot}번 슬롯 이미지가 성공적으로 교체되었습니다!`);

@@ -1,8 +1,7 @@
 # User specified ignores
 example/
 3. [Design] Std No_Name.pdf
-Analysis_[22212048_김동준].md
-Conceptualization_[22212048_김동준].md
+
 
 # Security
 application-secret.yml
