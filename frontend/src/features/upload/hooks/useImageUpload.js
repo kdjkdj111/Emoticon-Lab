@@ -52,11 +52,14 @@ export const useImageUpload = (totalSlots = 32) => {
     }));
   }, []);
 
+  const [uploadProgress, setUploadProgress] = useState(0);
+
   const uploadToServer = useCallback(async () => {
     const validUploads = slots.filter(s => s.file !== null);
     if (validUploads.length === 0) return null;
     
     setIsUploading(true);
+    setUploadProgress(0);
     try {
       const { data: userData, error: userError } = await supabase.auth.getUser();
       if (userError) throw userError;
@@ -82,6 +85,8 @@ export const useImageUpload = (totalSlots = 32) => {
             id: slot.id,
             supabaseUrl: publicUrl
         });
+        
+        setUploadProgress(Math.round(((i + 1) / validUploads.length) * 100));
       }
       return uploadedImagesWithUrls;
     } catch (error) {
@@ -90,6 +95,7 @@ export const useImageUpload = (totalSlots = 32) => {
       return null;
     } finally {
       setIsUploading(false);
+      setUploadProgress(0);
     }
   }, [slots]);
 
@@ -97,6 +103,7 @@ export const useImageUpload = (totalSlots = 32) => {
     slots, 
     uploadedCount: slots.filter(s => s.file).length, 
     isUploading, 
+    uploadProgress,
     processFiles, 
     removeFile, 
     uploadToServer 

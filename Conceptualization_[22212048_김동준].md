@@ -18,7 +18,7 @@
 | Revision date | Version # | Description | Author |
 | :--- | :--- | :--- | :--- |
 | 03/27/2026 | 1.0 | First Writing | Kim dong jun |
-| 05/08/2026 | 1.0 | Use case fix | Kim dong jun |
+| 05/08/2026 | 1.1 | Use case fix | Kim dong jun |
 </div>
 <br>
 

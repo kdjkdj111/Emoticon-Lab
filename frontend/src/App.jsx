@@ -226,6 +226,7 @@ function App() {
                 onNavigate={handleNavigate} 
                 projects={projects} 
                 onDeleteProject={handleDeleteProject}
+                user={session?.user}
             />
         )}
 

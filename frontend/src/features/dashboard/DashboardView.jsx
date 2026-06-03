@@ -4,7 +4,7 @@ import EmptyProjectState from './components/EmptyProjectState';
 import { supabase } from '../../utils/supabaseClient';
 import './DashboardView.css';
 
-const DashboardView = ({ onNavigate, projects = [], onDeleteProject }) => {
+const DashboardView = ({ onNavigate, projects = [], onDeleteProject, user }) => {
   
   const handleProjectClick = useCallback((projectId) => {
     onNavigate('workspace', projectId);
@@ -21,7 +21,7 @@ const DashboardView = ({ onNavigate, projects = [], onDeleteProject }) => {
           Emoticon <span className="highlight">Lab</span>
         </div>
         <div className="header-actions">
-          <span className="user-greeting">동준님 👋</span>
+          <span className="user-greeting">{user?.user_metadata?.nickname || '작가'}님 👋</span>
           <button className="btn btn-secondary btn-logout" onClick={handleLogout}>
             로그아웃
           </button>
