@@ -46,7 +46,7 @@ const UploadView = ({ onNavigate }) => {
         <header className="dashboard-header">
           <div className="header-logo">Emoticon <span className="highlight">Lab</span></div>
           <div className="header-actions">
-            <button className="btn-text" onClick={() => onNavigate('start')}>취소</button>
+            <button className="btn-text" onClick={() => onNavigate('dashboard')}>취소</button>
           </div>
         </header>
 

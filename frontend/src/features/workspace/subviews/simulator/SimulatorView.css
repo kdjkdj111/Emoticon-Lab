@@ -1,6 +1,6 @@
 /* Simulator View Layout */
 
-/* ✨ 삐져나감 방지: 요소 크기 계산 시 패딩/테두리 포함 */
+/* 삐져나감 방지: 요소 크기 계산 시 패딩/테두리 포함 */
 .phone-frame, .phone-frame * {
     box-sizing: border-box;
 }
@@ -365,7 +365,7 @@
 
 .text-emoji-small { font-size: 1rem; }
 
-/* ✨ 이모티콘 그리드 (가로 오버플로우 방지 및 간격 조정) */
+/* 이모티콘 그리드 (가로 오버플로우 방지 및 간격 조정) */
 .keyboard-grid {
     flex: 1;
     overflow-y: auto;
