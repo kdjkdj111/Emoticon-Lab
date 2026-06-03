@@ -82,7 +82,7 @@ const StartView = ({ onNavigate }) => {
                         <p className="subtitle">계정에 로그인하여 프로젝트를 관리하세요.</p>
                         <div className="auth-form">
                             <input type="email" placeholder="이메일 주소" className="auth-input" value={email} onChange={e => setEmail(e.target.value)} />
-                            <input type="password" placeholder="비밀번호" className="auth-input" value={password} onChange={e => setPassword(e.target.value)} />
+                            <input type="password" placeholder="비밀번호" className="auth-input" value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleLogin()} />
                             <div className="button-group" style={{ marginTop: '1.5rem' }}>
                                 <button className="btn btn-start" onClick={handleLogin} disabled={isLoading}>로그인</button>
                                 <button className="btn btn-secondary" onClick={() => setMode('signup')} disabled={isLoading}>회원가입 하기</button>
@@ -98,7 +98,7 @@ const StartView = ({ onNavigate }) => {
                         <div className="auth-form">
                             <input type="text" placeholder="이름 (닉네임)" className="auth-input" value={nickname} onChange={e => setNickname(e.target.value)} />
                             <input type="email" placeholder="이메일 주소" className="auth-input" value={email} onChange={e => setEmail(e.target.value)} />
-                            <input type="password" placeholder="비밀번호" className="auth-input" value={password} onChange={e => setPassword(e.target.value)} />
+                            <input type="password" placeholder="비밀번호" className="auth-input" value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleSignup()} />
                             <div className="button-group" style={{ marginTop: '1.5rem' }}>
                                 <button className="btn btn-start" onClick={handleSignup} disabled={isLoading}>가입하기</button>
                                 <button className="btn btn-secondary" onClick={() => setMode('login')} disabled={isLoading}>이미 계정이 있으신가요?</button>
