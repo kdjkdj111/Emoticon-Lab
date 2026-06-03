@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jdk-alpine as build
+FROM eclipse-temurin:21-jdk-alpine as build
 WORKDIR /workspace/app
 
 # Copy gradle wrapper and related files
@@ -17,7 +17,7 @@ COPY src src
 RUN ./gradlew build -x test
 
 # Create the final image
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 VOLUME /tmp
 
 # Copy the built jar file
