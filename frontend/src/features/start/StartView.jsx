@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../utils/supabaseClient';
 import './StartView.css';
 import logoImage from '../../assets/Logo.png';
 
-const StartView = ({ onNavigate }) => {
+const StartView = () => {
+    const navigate = useNavigate();
     const [mode, setMode] = useState('landing');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -17,7 +19,7 @@ const StartView = ({ onNavigate }) => {
         if (error) {
             alert(error.message);
         } else {
-            onNavigate('dashboard');
+            navigate('/dashboard');
         }
         setIsLoading(false);
     };
@@ -42,7 +44,7 @@ const StartView = ({ onNavigate }) => {
     const handleStartClick = async () => {
         const { data: { session } } = await supabase.auth.getSession();
         if (session) {
-            onNavigate('dashboard');
+            navigate('/dashboard');
         } else {
             setMode('login');
         }

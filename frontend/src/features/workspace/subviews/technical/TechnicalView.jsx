@@ -42,12 +42,10 @@ const TechnicalView = ({ projectId, uploadedImages = [], onUpdateImage, reportDa
      */
     const handleStartAnalysis = async () => {
         setAnalysisStatus('analyzing');
-        setAnalysisProgress(50);
         try {
             const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/analysis/technical/${projectId}`, {
                 method: 'POST'
             });
-            setAnalysisProgress(100);
             if (res.ok) {
                 const data = await res.json();
                 const rawErrors = data.errorDetails?.errors || [];
@@ -146,12 +144,8 @@ const TechnicalView = ({ projectId, uploadedImages = [], onUpdateImage, reportDa
             <div className="technical-analyzing fade-in">
                 <div className="analyzing-card">
                     <div className="spinner-large"></div>
-                    <h3>서버 분석 중...</h3>
-                    <p>이미지 데이터를 계산하고 있습니다.<br/> 잠시만 기다려 주세요.</p>
-                    <div className="analysis-progress-bar">
-                        <div className="progress-fill" style={{ width: `${analysisProgress}%` }}></div>
-                    </div>
-                    <span className="progress-text">{analysisProgress}% 완료</span>
+                    <h3>정밀 검수 진행 중...</h3>
+                    <p>32장의 이모티콘 픽셀과 규격을 분석하고 있습니다.<br/>이미지 용량에 따라 약간의 시간이 소요될 수 있습니다.</p>
                 </div>
             </div>
         );

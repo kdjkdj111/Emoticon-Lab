@@ -1,15 +1,50 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useAppContext } from '../../context/AppContext';
 import './WorkspaceView.css';
 
 import SimulatorView from './subviews/simulator/SimulatorView';
 import TechnicalView from './subviews/technical/TechnicalView';
 import AIView from './subviews/ai/AIView';
 
-const WorkspaceView = ({ onNavigate, data, onUpdateImage, onSaveReport, onSaveProject, onDeleteProject }) => {
-    const [activeTab, setActiveTab] = useState('simulator');
+const WorkspaceView = () => {
+    const { projectId } = useParams();
+    const navigate = useNavigate();
+    const {
+        projects,
+        fetchProjectDetail,
+        handleUpdateImage,
+        handleSaveReport,
+        handleSaveProject,
+        handleDeleteProject,
+    } = useAppContext();
 
+    const [activeTab, setActiveTab] = useState('simulator');
     const [showResetModal, setShowResetModal] = useState(false);
-    const [localTitle, setLocalTitle] = useState(data?.title || '');
+    const [localTitle, setLocalTitle] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
+    const data = projects.find(p => p.id === Number(projectId)) || null;
+
+    // 워크스페이스 진입 시 상세 데이터 패치 + 소유권 검증
+    useEffect(() => {
+        if (!projectId) return;
+        const alreadyLoaded = data?.uploadedImages?.length > 0;
+        if (!alreadyLoaded) {
+            setIsLoading(true);
+            fetchProjectDetail(projectId).finally(() => setIsLoading(false));
+        }
+    }, [projectId]);
+
+    // 소유권 검증: 내 프로젝트 목록이 로드된 뒤에도 해당 ID가 없으면 대시보드로 차단
+    useEffect(() => {
+        // projects가 아직 로딩 중이면 건너뜀 (빈 배열이어도 fetchProjects 완료 후에 판단)
+        if (projects.length === 0) return;
+        const isOwner = projects.some(p => p.id === Number(projectId));
+        if (!isOwner) {
+            navigate('/dashboard', { replace: true });
+        }
+    }, [projects, projectId]);
 
     useEffect(() => {
         setLocalTitle(data?.title || '');
@@ -20,24 +55,36 @@ const WorkspaceView = ({ onNavigate, data, onUpdateImage, onSaveReport, onSavePr
     };
 
     const handleTitleBlur = () => {
-        if (localTitle !== data?.title) {
-            onSaveProject({ ...data, title: localTitle });
+        if (data && localTitle !== data.title) {
+            handleSaveProject(projectId, { ...data, title: localTitle });
         }
     };
 
     const handleTitleKeyDown = (e) => {
-        if (e.key === 'Enter') {
-            e.target.blur();
-        }
+        if (e.key === 'Enter') e.target.blur();
     };
 
-    // 세션 종료 시 자동 저장 후 대시보드 이동
     const handleSessionExit = () => {
-        if (onSaveProject) {
-            onSaveProject({ ...data, status: '검수 완료' });
+        // 제목만 저장하고 상태는 건드리지 않음 (상태는 분석 완료 시점에 백엔드가 결정)
+        if (data && localTitle !== data.title) {
+            handleSaveProject(projectId, { ...data, title: localTitle });
         }
-        onNavigate('dashboard');
+        navigate('/dashboard');
     };
+
+    const handleReset = async () => {
+        const ok = await handleDeleteProject(projectId);
+        if (ok) navigate('/dashboard');
+        setShowResetModal(false);
+    };
+
+    if (isLoading) {
+        return (
+            <div className="workspace-view" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <p style={{ color: '#666', fontSize: '1rem' }}>프로젝트 데이터를 불러오는 중...</p>
+            </div>
+        );
+    }
 
     return (
         <div className="workspace-view">
@@ -85,8 +132,8 @@ const WorkspaceView = ({ onNavigate, data, onUpdateImage, onSaveReport, onSavePr
                         projectId={data?.id}
                         uploadedImages={data?.uploadedImages}
                         reportData={data?.technicalReport}
-                        onUpdateImage={onUpdateImage}
-                        onSaveReport={(report) => onSaveReport('technicalReport', report)}
+                        onUpdateImage={(slotId, newFile) => handleUpdateImage(projectId, slotId, newFile)}
+                        onSaveReport={(report) => handleSaveReport(projectId, 'technicalReport', report)}
                     />
                 </div>
 
@@ -95,7 +142,7 @@ const WorkspaceView = ({ onNavigate, data, onUpdateImage, onSaveReport, onSavePr
                         projectId={data?.id}
                         uploadedImages={data?.uploadedImages}
                         reportData={data?.aiReport}
-                        onSaveReport={(report) => onSaveReport('aiReport', report)}
+                        onSaveReport={(report) => handleSaveReport(projectId, 'aiReport', report)}
                     />
                 </div>
             </div>
@@ -108,7 +155,7 @@ const WorkspaceView = ({ onNavigate, data, onUpdateImage, onSaveReport, onSavePr
                         <p>현재 작업 중인 모든 데이터와 <br/>분석 결과가 사라집니다.<br/>정말 초기화하시겠습니까?</p>
                         <div className="modal-actions">
                             <button className="btn-modal-cancel" onClick={() => setShowResetModal(false)}>취소</button>
-                            <button className="btn-modal-confirm" onClick={() => onDeleteProject()}>초기화(삭제)하기</button>
+                            <button className="btn-modal-confirm" onClick={handleReset}>초기화(삭제)하기</button>
                         </div>
                     </div>
                 </div>

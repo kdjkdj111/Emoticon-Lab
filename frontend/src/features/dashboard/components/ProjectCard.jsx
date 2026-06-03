@@ -1,8 +1,26 @@
 import React from 'react';
 
+// 백엔드 영어 상태값 → 한글 표시 매핑
+const STATUS_LABEL = {
+  'CREATED':              '업로드 완료',
+  'TECHNICAL_COMPLETED':  '기술 검수 완료',
+  'AI_COMPLETED':         'AI 분석 완료',
+  'ALL_COMPLETED':        '전체 분석 완료',
+  '검수 완료':             '전체 분석 완료',   // 기존 데이터 하위호환
+};
+
+const STATUS_CLASS = {
+  'CREATED':              'status-created',
+  'TECHNICAL_COMPLETED':  'status-technical',
+  'AI_COMPLETED':         'status-ai',
+  'ALL_COMPLETED':        'status-success',
+  '검수 완료':             'status-success',
+};
+
 const ProjectCard = React.memo(({ project, onClick, onDelete }) => {
   const thumbnailUrl = project.uploadedImages?.[0]?.previewUrl || project.thumbnail;
-  const statusClass = project.status === '검수 완료' ? 'status-success' : 'status-warning';
+  const label = STATUS_LABEL[project.status] || project.status || '처리 중';
+  const statusClass = STATUS_CLASS[project.status] || 'status-warning';
 
   const handleDelete = (e) => {
     e.stopPropagation();
@@ -39,7 +57,7 @@ const ProjectCard = React.memo(({ project, onClick, onDelete }) => {
         <div className="project-meta">
           <span className="project-date">{project.date}</span>
           <span className={`project-status ${statusClass}`}>
-            {project.status}
+            {label}
           </span>
         </div>
       </div>

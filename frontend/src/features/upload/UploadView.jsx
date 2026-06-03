@@ -1,9 +1,13 @@
 import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useImageUpload } from './hooks/useImageUpload';
+import { useAppContext } from '../../context/AppContext';
 import SlotItem from './components/SlotItem';
 import './UploadView.css';
 
-const UploadView = ({ onNavigate }) => {
+const UploadView = () => {
+  const navigate = useNavigate();
+  const { handleCreateProject } = useAppContext();
   const { 
     slots, uploadedCount, isUploading, uploadProgress,
     processFiles, removeFile, uploadToServer 
@@ -20,10 +24,13 @@ const UploadView = ({ onNavigate }) => {
     
     const uploadedImages = await uploadToServer();
     if (uploadedImages) {
-      await onNavigate('workspace', { uploadedImages });
+      const newProjectId = await handleCreateProject(uploadedImages);
+      if (newProjectId) {
+        navigate(`/workspace/${newProjectId}`);
+        return;
+      }
     }
     
-    // 네비게이션 실패 혹은 지연 시를 위한 초기화
     setIsSubmitting(false);
   };
 
@@ -46,7 +53,7 @@ const UploadView = ({ onNavigate }) => {
         <header className="dashboard-header">
           <div className="header-logo">Emoticon <span className="highlight">Lab</span></div>
           <div className="header-actions">
-            <button className="btn-text" onClick={() => onNavigate('dashboard')}>취소</button>
+            <button className="btn-text" onClick={() => navigate('/dashboard')}>취소</button>
           </div>
         </header>
 

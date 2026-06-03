@@ -133,15 +133,23 @@ public class AiAnalysisService {
         WebClient webClient = WebClient.builder().build();
         String responseJson;
         try {
+            log.info("[AI 분석] Gemini API 요청 시작 - projectId={}, 이미지파트수={}", projectId, parts.size() - 1);
             responseJson = webClient.post()
                     .uri(geminiApiUrl + "?key=" + geminiApiKey)
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .bodyValue(requestBody)
                     .retrieve()
+                    .onStatus(status -> status.is4xxClientError() || status.is5xxServerError(), clientResponse ->
+                        clientResponse.bodyToMono(String.class).map(body -> {
+                            log.error("[AI 분석] Gemini API 오류 응답 - HTTP={}, body={}", clientResponse.statusCode().value(), body);
+                            return new RuntimeException("Gemini API 오류 [" + clientResponse.statusCode().value() + "]: " + body);
+                        })
+                    )
                     .bodyToMono(String.class)
                     .block();
+            log.info("[AI 분석] Gemini API 응답 수신 성공 - projectId={}", projectId);
         } catch (Exception e) {
-            log.error("Gemini API call failed", e);
+            log.error("[AI 분석] Gemini API 호출 실패 - projectId={}, 원인={}", projectId, e.getMessage(), e);
             throw new RuntimeException("AI API 요청에 실패했습니다.", e);
         }
 
@@ -185,7 +193,12 @@ public class AiAnalysisService {
                     .risks((Map<String, Object>) parsedResponse.get("risks"))
                     .build();
             
-            project.updateStatus("AI_COMPLETED");
+            String currentStatus = project.getStatus();
+            if ("TECHNICAL_COMPLETED".equals(currentStatus)) {
+                project.updateStatus("ALL_COMPLETED");
+            } else if (!"ALL_COMPLETED".equals(currentStatus)) {
+                project.updateStatus("AI_COMPLETED");
+            }
             projectRepository.save(project);
             
             com.kdj.emoticon_lab.domain.User user = project.getUser();

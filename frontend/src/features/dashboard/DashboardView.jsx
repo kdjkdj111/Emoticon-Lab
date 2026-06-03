@@ -1,17 +1,34 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '../../utils/supabaseClient';
+import { useAppContext } from '../../context/AppContext';
 import ProjectCard from './components/ProjectCard';
 import EmptyProjectState from './components/EmptyProjectState';
-import { supabase } from '../../utils/supabaseClient';
 import './DashboardView.css';
 
-const DashboardView = ({ onNavigate, projects = [], onDeleteProject, user }) => {
-  
+const DashboardView = () => {
+  const navigate = useNavigate();
+  const { session, projects, handleDeleteProject, fetchProjects } = useAppContext();
+
+  // 대시보드 마운트 시 항상 최신 상태를 불러오도록(상태 변경 갱신)
+  useEffect(() => {
+    if (session?.user?.id) {
+      fetchProjects(session.user.id);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session?.user?.id]);
+
   const handleProjectClick = useCallback((projectId) => {
-    onNavigate('workspace', projectId);
-  }, [onNavigate]);
+    navigate(`/workspace/${projectId}`);
+  }, [navigate]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
+    navigate('/');
+  };
+
+  const onDelete = async (projectId) => {
+    await handleDeleteProject(projectId);
   };
 
   return (
@@ -21,7 +38,7 @@ const DashboardView = ({ onNavigate, projects = [], onDeleteProject, user }) => 
           Emoticon <span className="highlight">Lab</span>
         </div>
         <div className="header-actions">
-          <span className="user-greeting">{user?.user_metadata?.nickname || '작가'}님 👋</span>
+          <span className="user-greeting">{session?.user?.user_metadata?.nickname || '작가'}님 👋</span>
           <button className="btn btn-secondary btn-logout" onClick={handleLogout}>
             로그아웃
           </button>
@@ -36,7 +53,7 @@ const DashboardView = ({ onNavigate, projects = [], onDeleteProject, user }) => 
           </div>
           <button
             className="btn-new-project"
-            onClick={() => onNavigate('upload')}
+            onClick={() => navigate('/upload')}
           >
             <span className="plus-icon">+</span> 새 프로젝트 시작
           </button>
@@ -47,11 +64,11 @@ const DashboardView = ({ onNavigate, projects = [], onDeleteProject, user }) => 
             <EmptyProjectState />
           ) : (
             projects.map(project => (
-              <ProjectCard 
-                key={project.id} 
-                project={project} 
-                onClick={handleProjectClick} 
-                onDelete={onDeleteProject}
+              <ProjectCard
+                key={project.id}
+                project={project}
+                onClick={handleProjectClick}
+                onDelete={onDelete}
               />
             ))
           )}

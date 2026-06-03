@@ -73,7 +73,13 @@ public class TechnicalAnalysisService {
                 .errorDetails(errorDetails)
                 .build();
         
-        project.updateStatus("TECHNICAL_COMPLETED");
+        String currentStatus = project.getStatus();
+        if ("AI_COMPLETED".equals(currentStatus)) {
+            project.updateStatus("ALL_COMPLETED");
+        } else if (!"ALL_COMPLETED".equals(currentStatus)) {
+            project.updateStatus("TECHNICAL_COMPLETED");
+        }
+        
         projectRepository.save(project);
         return reportRepository.save(report);
     }
