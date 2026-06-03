@@ -28,7 +28,7 @@ const StartView = ({ onNavigate }) => {
         const { error } = await supabase.auth.signUp({
             email,
             password,
-            options: { data: { nickname } }
+            options: { data: { nickname, full_name: nickname, name: nickname } }
         });
         if (error) {
             alert(error.message);
