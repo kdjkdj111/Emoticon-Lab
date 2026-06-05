@@ -4,9 +4,9 @@ spring:
   config:
     import: optional:file:.env[.properties]
   datasource:
-    url: ${SUPABASE_DB_URL:jdbc:postgresql://aws-0-ap-northeast-2.pooler.supabase.com:6543/postgres?sslmode=require&prepareThreshold=0}
-    username: ${SUPABASE_USER:postgres.[YOUR_PROJECT_REF]}
-    password: ${SUPABASE_PASSWORD:your_password_here}
+    url: ${SUPABASE_DB_URL}
+    username: ${SUPABASE_USER}
+    password: ${SUPABASE_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -18,10 +18,10 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 cors:
-  allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173}
+  allowed-origins: ${ALLOWED_ORIGINS}
 
 # Gemini API Configuration
 gemini:
   api:
-    key: ${GEMINI_API_KEY:your_gemini_key_here}
+    key: ${GEMINI_API_KEY}
     url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
