@@ -20,9 +20,9 @@
 | 구분 | URL | 호스팅 |
 |------|-----|--------|
 | Frontend | https://emoticon-lab.vercel.app | Vercel |
-| Backend | https://emoticon-lab.onrender.com | Render (Free) |
+| Backend | https://emoticon-lab.onrender.com | Render |
 
-> Backend는 Render 무료 플랜으로 운영 중이며, UptimeRobot을 통해 5분 간격으로 헬스체크(`/api/health`)를 수행하여 Cold Start를 방지합니다.
+> Backend는 Render 무료 플랜으로 운영 중이며, UptimeRobot을 통해 14분 간격으로 API를 호출하여 Cold Start를 방지합니다.
 
 <br>
 
