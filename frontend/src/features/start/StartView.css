@@ -167,13 +167,12 @@
 }
 
 .start-footer {
-  position: absolute;
-  bottom: 2rem;
-  left: 0;
-  right: 0;
   text-align: center;
   font-size: 0.85rem;
   color: #b0b0b0;
+  padding: 2rem 0 1.5rem;
+  margin-top: 1rem;
+  width: 100%;
 }
 
 .fade-in {

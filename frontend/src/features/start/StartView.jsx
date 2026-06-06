@@ -108,9 +108,9 @@ const StartView = () => {
                         </div>
                     </div>
                 )}
-            </div>
-            <footer className="start-footer">@_dongjunnn</footer>
         </div>
+        <footer className="start-footer">@_dongjunnn</footer>
+    </div>
     );
 };
 
