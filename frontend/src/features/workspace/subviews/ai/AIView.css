@@ -361,3 +361,36 @@
     object-fit: cover;
     object-position: top;
 }
+
+/* --- 모바일 반응형 (768px 이하) --- */
+@media (max-width: 768px) {
+    .ai-analysis-view {
+        padding: 1rem;
+    }
+
+    .form-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .analysis-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .risk-card {
+        grid-column: span 1;
+    }
+
+    .risk-status-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .risk-feedback-list {
+        grid-template-columns: 1fr;
+    }
+
+    .report-header h2 {
+        font-size: 1.5rem;
+    }
+}

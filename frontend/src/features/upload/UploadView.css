@@ -459,3 +459,45 @@
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* --- 모바일 반응형 (768px 이하) --- */
+@media (max-width: 768px) {
+  .upload-content {
+    padding: 1rem;
+    overflow-y: auto;
+  }
+  
+  .upload-workspace-split {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .grid-container-4x8 {
+    padding: 1rem;
+    /* 모바일에서는 가로 스크롤 가능하게 처리 */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .grid-slot-v2 {
+    width: calc(25% - 0.5rem); /* 4열 배치 유지 */
+    aspect-ratio: 1;
+  }
+
+  .report-panel {
+    margin-top: 1rem;
+  }
+
+  .title-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .user-greeting {
+    display: none;
+  }
+}

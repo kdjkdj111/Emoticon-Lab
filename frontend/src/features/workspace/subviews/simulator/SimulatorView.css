@@ -549,3 +549,24 @@
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+/* --- 모바일 반응형 (768px 이하) --- */
+@media (max-width: 768px) {
+    .simulator-dual-container {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 1rem;
+        overflow-y: auto;
+    }
+
+    .phone-container {
+        transform: scale(0.9);
+        height: auto;
+    }
+
+    .simulator-center-settings {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
