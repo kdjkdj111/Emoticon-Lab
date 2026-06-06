@@ -17,6 +17,7 @@ const ProtectedRoute = ({ session, children }) => {
 function App() {
   const [session, setSession] = useState(undefined); // undefined = 로딩중, null = 비로그인
   const [projects, setProjects] = useState([]);
+  const [projectsLoaded, setProjectsLoaded] = useState(false); // 초기 프로젝트 목록 로드 완료 여부
 
   // 1. Supabase Auth 상태 감지
   useEffect(() => {
@@ -70,6 +71,8 @@ function App() {
       }
     } catch (e) {
       console.error("Failed to fetch projects", e);
+    } finally {
+      setProjectsLoaded(true); // 성공·실패 무관하게 로드 완료 표시
     }
   };
 
@@ -109,12 +112,26 @@ function App() {
           mappedTechReport = { results: enrichedResults };
         }
 
-        setProjects(prev => prev.map(p => p.id === Number(projectId) ? {
-          ...p,
-          uploadedImages: mappedImages,
-          aiReport: mappedAiReport,
-          technicalReport: mappedTechReport
-        } : p));
+        // 기존 projects에 이미 있으면 업데이트, 없으면(새로고침 직후 등) 새로 추가(upsert)
+        setProjects(prev => {
+          const exists = prev.some(p => p.id === Number(projectId));
+          const updatedProject = {
+            id: Number(projectId),
+            title: detailData.title || '',
+            status: detailData.status || '',
+            date: detailData.createdAt ? new Date(detailData.createdAt).toLocaleDateString() : '',
+            thumbnail: detailData.thumbnailUrl || null,
+            uploadedImages: mappedImages,
+            aiReport: mappedAiReport,
+            technicalReport: mappedTechReport,
+          };
+          if (exists) {
+            return prev.map(p => p.id === Number(projectId) ? { ...p, ...updatedProject } : p);
+          } else {
+            // 새로고침 시 projects가 비어있는 경우를 위해 upsert
+            return [updatedProject, ...prev];
+          }
+        });
       }
     } catch (e) {
       console.error("Failed to fetch project detail", e);
@@ -209,6 +226,7 @@ function App() {
   const contextValue = {
     session,
     projects,
+    projectsLoaded,
     fetchProjects,
     fetchProjectDetail,
     handleUpdateImage,

@@ -12,6 +12,7 @@ const WorkspaceView = () => {
     const navigate = useNavigate();
     const {
         projects,
+        projectsLoaded,
         fetchProjectDetail,
         handleUpdateImage,
         handleSaveReport,
@@ -22,7 +23,7 @@ const WorkspaceView = () => {
     const [activeTab, setActiveTab] = useState('simulator');
     const [showResetModal, setShowResetModal] = useState(false);
     const [localTitle, setLocalTitle] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true); // 새로고침 시도 로딩 화면 줄력
 
     const data = projects.find(p => p.id === Number(projectId)) || null;
 
@@ -33,18 +34,20 @@ const WorkspaceView = () => {
         if (!alreadyLoaded) {
             setIsLoading(true);
             fetchProjectDetail(projectId).finally(() => setIsLoading(false));
+        } else {
+            setIsLoading(false);
         }
     }, [projectId]);
 
-    // 소유권 검증: 내 프로젝트 목록이 로드된 뒤에도 해당 ID가 없으면 대시보드로 차단
+    // 소유권 검증: 프로젝트 목록이 로드된 뒤에도 해당 ID가 없으면 대시보드로 차단
     useEffect(() => {
-        // projects가 아직 로딩 중이면 건너뜀 (빈 배열이어도 fetchProjects 완료 후에 판단)
-        if (projects.length === 0) return;
+        // projectsLoaded가 false면 아직 패치 중 → 기다림
+        if (!projectsLoaded) return;
         const isOwner = projects.some(p => p.id === Number(projectId));
         if (!isOwner) {
             navigate('/dashboard', { replace: true });
         }
-    }, [projects, projectId]);
+    }, [projectsLoaded, projects, projectId]);
 
     useEffect(() => {
         setLocalTitle(data?.title || '');
