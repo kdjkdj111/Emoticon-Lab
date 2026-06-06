@@ -304,3 +304,37 @@
   color: #888;
   font-size: 0.95rem;
 }
+
+/* --- 모바일 반응형 (768px 이하) --- */
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding: 1rem;
+  }
+
+  .header-logo {
+    font-size: 1.2rem;
+  }
+
+  .user-greeting {
+    display: none; /* 모바일에서는 닉네임 생략하여 공간 확보 */
+  }
+
+  .dashboard-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .dashboard-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .btn-new-project {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+}
