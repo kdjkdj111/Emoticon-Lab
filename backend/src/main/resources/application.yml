@@ -18,7 +18,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 cors:
-  allowed-origins: ${ALLOWED_ORIGINS}
+  allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173,http://localhost:5174}
 
 # Gemini API Configuration
 gemini:
