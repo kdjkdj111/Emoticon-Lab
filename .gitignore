@@ -61,3 +61,6 @@ out/
 coverage/
 .next/
 .nuxt/
+
+# Secret Files 
+secret_keys.txt
